@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>com.teachers</groupId>
+        <artifactId>teachers-management-parent</artifactId>
+        <version>0.0.1-SNAPSHOT</version>
+        <relativePath>../teachers-management-parent</relativePath>
+    </parent>
+
+
+    <groupId>com.teachers</groupId>
+    <artifactId>teachers-management-content</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+    <name>teachers-management-content</name>
+    <description>Demo project for Spring Boot</description>
+    <packaging>pom</packaging>
+    <properties>
+        <java.version>11</java.version>
+    </properties>
+
+    <modules>
+        <module>teachers-management-content-api</module>
+        <module>teachers-management-content-model</module>
+        <module>teachers-management-content-service</module>
+    </modules>
+
+</project>
