@@ -1,0 +1,27 @@
+server:
+  servlet:
+    context-path: /teachers
+  port: 8001
+# 微服务配置
+spring:
+  application:
+    name: content-api
+    datasource:
+      url: jdbc:mysql://localhost:3306/test
+      driver-class-name: com.mysql.jdbc.Driver
+      username: root
+      password: 1816080200
+      type: com.alibaba.druid.pool.DruidDataSource
+      maxActive: 20
+
+# 日志文件配置路径
+logging:
+  config: classpath:log4j2-dev.xml
+
+# swagger 文档配置
+swagger:
+  title: "教师管理"
+  description: "教师管理数据"
+  base-package: com.teachers
+  enabled: true
+  version: 1.0.0
