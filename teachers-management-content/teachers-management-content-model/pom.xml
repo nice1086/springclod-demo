@@ -23,7 +23,13 @@
             <artifactId>teachers-management-base</artifactId>
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
+        <dependency>
+            <groupId>com.baomidou</groupId>
+            <artifactId>mybatis-plus-annotation</artifactId>
+            <version>${mybatis-plus-boot-starter.version}</version>
+        </dependency>
     </dependencies>
+
 
     <build>
         <plugins>
