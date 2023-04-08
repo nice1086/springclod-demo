@@ -19,4 +19,20 @@ public class PageParams {
 
     // 当前每页记录数
     private Long pageSize = DEFAULT_PAGE_SIZE;
+
+    public Long getPageNo() {
+        return pageNo;
+    }
+
+    public void setPageNo(Long pageNo) {
+        this.pageNo = pageNo;
+    }
+
+    public Long getPageSize() {
+        return pageSize;
+    }
+
+    public void setPageSize(Long pageSize) {
+        this.pageSize = pageSize;
+    }
 }
