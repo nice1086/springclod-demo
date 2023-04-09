@@ -8,10 +8,15 @@ spring:
     name: content-api
   cloud:
       nacos:
-        server-addr:
+        server-addr: 192.168.101.65:8080
     discovery:
-        namespace:
+        namespace: dev
         group: springcloud-demo
+    config:
+      namespce: dev
+      group: springcloud-demo
+      file-extension: yaml
+      refresh-enabled: true
 
 # 日志文件配置路径
 logging:
