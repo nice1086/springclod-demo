@@ -12,6 +12,7 @@ import com.teachers.model.PageResult;
 import com.teachers.service.TeacherService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -49,28 +50,75 @@ public class TeacherServiceImpl implements TeacherService {
     @Transactional
     @Override
     public TeacherInfoDto addTeacher(String id,AddTeacherDto addTeacherDto) {
-        // 1. 合法性校验
-        if (StringUtils.isBlank(addTeacherDto.getId())) {
-            throw new RuntimeException("id为空");
+        // 1. 合法性校验 (常规校验)/JSR303校验 (使用@Validated开启)
+//        if (StringUtils.isBlank(addTeacherDto.getId())) {
+//            throw new RuntimeException("id为空");
+//        }
+//        if (StringUtils.isBlank(addTeacherDto.getName())) {
+//            throw new RuntimeException("名称为空");
+//        }
+//        if (StringUtils.isBlank(addTeacherDto.getImage())) {
+//            throw new RuntimeException("图片为空");
+//        }
+//        if (StringUtils.isBlank(addTeacherDto.getIntro())) {
+//            throw new RuntimeException("简介为空");
+//        }
+//        if (StringUtils.isBlank(addTeacherDto.getMotto())) {
+//            throw new RuntimeException("座右铭为空");
+//        }
+//        if (StringUtils.isBlank(addTeacherDto.getNickname())) {
+//            throw new RuntimeException("昵称为空");
+//        }
+//        if (StringUtils.isBlank(addTeacherDto.getPosition())) {
+//            throw new RuntimeException("职位为空");
+//        }
+        // 2. 封装请求参数
+        // 封装基本信息
+        User user = new User();
+        BeanUtils.copyProperties(addTeacherDto, user);
+        // 2.1 设置信息
+        user.setId(id);
+
+        int insert = teachersMapper.insert(user);
+        if(insert <= 0){
+            throw new RuntimeException("插入失败");
         }
-        if (StringUtils.isBlank(addTeacherDto.getName())) {
-            throw new RuntimeException("名称为空");
-        }
-        if (StringUtils.isBlank(addTeacherDto.getImage())) {
-            throw new RuntimeException("图片为空");
-        }
-        if (StringUtils.isBlank(addTeacherDto.getIntro())) {
-            throw new RuntimeException("简介为空");
-        }
-        if (StringUtils.isBlank(addTeacherDto.getMotto())) {
-            throw new RuntimeException("座右铭为空");
-        }
-        if (StringUtils.isBlank(addTeacherDto.getNickname())) {
-            throw new RuntimeException("昵称为空");
-        }
-        if (StringUtils.isBlank(addTeacherDto.getPosition())) {
-            throw new RuntimeException("职位为空");
-        }
-        return null;
+
+        id = user.getId();
+        return getTeacherInfo(id);
     }
+
+    @Transactional
+    @Override
+    public Integer teacherDeleteByName(String name) {
+        Integer result = teachersMapper.userDeleteByName(name);
+
+        if(result <= 0){
+                throw new RuntimeException("失败");
+        }
+            return result;
+    }
+
+    @Transactional
+    @Override
+    public TeacherInfoDto teacherUpdate(String id, AddTeacherDto addTeacherDto) {
+
+        return teachersMapper.teacherUpdate(id,addTeacherDto.getName(),
+                addTeacherDto.getNickname(),addTeacherDto.getImage(),addTeacherDto.getPosition()
+                ,addTeacherDto.getMotto(), addTeacherDto.getIntro());
+    }
+
+    private TeacherInfoDto getTeacherInfo(String id) {
+        TeacherInfoDto teacherInfoDto = new TeacherInfoDto();
+        // 1. 根据id查询基本信息
+        User user = teachersMapper.selectById(id);
+        if (user == null)
+            return null;
+        // 1.1 拷贝属性
+        BeanUtils.copyProperties(user, teacherInfoDto);
+
+        return teacherInfoDto;
+    }
+
+
 }

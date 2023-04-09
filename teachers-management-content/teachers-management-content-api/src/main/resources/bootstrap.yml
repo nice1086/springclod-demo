@@ -6,7 +6,12 @@ server:
 spring:
   application:
     name: content-api
-
+  cloud:
+      nacos:
+        server-addr:
+    discovery:
+        namespace:
+        group: springcloud-demo
 
 # 日志文件配置路径
 logging:

@@ -11,4 +11,8 @@ public interface TeacherService {
     PageResult<User> queryTeacherList(PageParams pageParams, QueryteacherDto queryteacherDto);
 
     TeacherInfoDto addTeacher(String id,AddTeacherDto addTeacherDto);
+
+    Integer teacherDeleteByName(String name);
+
+    TeacherInfoDto teacherUpdate(String id,AddTeacherDto addTeacherDto);
 }
