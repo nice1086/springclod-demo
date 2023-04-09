@@ -1,5 +1,6 @@
 package com.teachers.service.impl;
 
+import com.alibaba.fastjson.JSON;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.teachers.dto.AddTeacherDto;
@@ -14,6 +15,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -25,6 +27,9 @@ public class TeacherServiceImpl implements TeacherService {
 
     @Autowired
     TeachersMapper teachersMapper;
+
+    @Autowired
+    RedisTemplate redisTemplate;
 
     @Transactional
     @Override
@@ -108,6 +113,30 @@ public class TeacherServiceImpl implements TeacherService {
                 ,addTeacherDto.getMotto(), addTeacherDto.getIntro());
     }
 
+    @Transactional
+    @Override
+    public User queryTeacherListCache(String id) {
+       //从缓存中查找
+        Object jsonObj = redisTemplate.opsForValue().get("teacher"+id);
+        if(jsonObj != null){
+            String jsonString = jsonObj.toString();
+            User users = JSON.parseObject(jsonString,User.class);
+            return users;
+        }else {
+            //从数据库查找
+            User users = getTeacher(id);
+            redisTemplate.opsForValue().set("id"+id,JSON.toJSONString(users));
+        }
+        // 查询完成存储到redis
+
+        return null;
+    }
+
+    private User getTeacher(String id) {
+        User user = teachersMapper.selectById(id);
+        return user;
+    }
+
     private TeacherInfoDto getTeacherInfo(String id) {
         TeacherInfoDto teacherInfoDto = new TeacherInfoDto();
         // 1. 根据id查询基本信息
@@ -119,6 +148,8 @@ public class TeacherServiceImpl implements TeacherService {
 
         return teacherInfoDto;
     }
+
+
 
 
 }

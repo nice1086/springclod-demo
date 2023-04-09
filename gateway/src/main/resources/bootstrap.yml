@@ -1,31 +1,20 @@
-server:
-  servlet:
-    context-path: /teachers
-  port: 8001
-# 微服务配置
 spring:
   application:
-    name: content-api
+    name: gateway
   cloud:
-      nacos:
-        server-addr: 192.168.101.65:8080
-    discovery:
-        namespace: dev
+    nacos:
+      server-addr: 192.168.101.65:8080
+      discovery:
+        namespace: ${spring.profiles.active}
         group: springcloud-demo
-    config:
-      namespce: dev
-      group: springcloud-demo
-      file-extension: yaml
-      refresh-enabled: true
-
-# 日志文件配置路径
-logging:
-  config: classpath:log4j2-dev.xml
-
-# swagger 文档配置
-swagger:
-  title: "教师管理"
-  description: "教师管理数据"
-  base-package: com.teachers
-  enabled: true
-  version: 1.0.0
+      config:
+        namespace: ${spring.profiles.active}
+        group: springcloud-demo
+        file-extension: yaml
+        refresh-enabled: true
+        shared-configs:
+          - data-id: logging-${spring.profiles.active}.yaml
+            group: springcloud-demo
+            refresh: true
+  profiles:
+    active: dev

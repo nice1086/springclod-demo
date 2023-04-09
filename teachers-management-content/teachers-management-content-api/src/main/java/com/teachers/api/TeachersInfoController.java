@@ -12,9 +12,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Arrays;
 
@@ -52,5 +50,18 @@ public class TeachersInfoController {
     public TeacherInfoDto teacherUpdate(@RequestBody String id,@Validated AddTeacherDto addTeacherDto){
 
         return teacherService.teacherUpdate(id,addTeacherDto);
+    }
+
+    @GetMapping("/teacher/selectCache/{id}")
+    @ResponseBody
+    public TeacherInfoDto getTeacherCache(@PathVariable("id") String id){
+            TeacherInfoDto teacherInfoDto = new TeacherInfoDto();
+    //先从缓存查询
+            User user = teacherService.queryTeacherListCache(id);
+            if(user == null){
+                return teacherInfoDto;
+            }
+            return teacherInfoDto;
+
     }
 }

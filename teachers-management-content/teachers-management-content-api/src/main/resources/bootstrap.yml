@@ -12,11 +12,26 @@ spring:
     discovery:
         namespace: dev
         group: springcloud-demo
-    config:
-      namespce: dev
-      group: springcloud-demo
-      file-extension: yaml
-      refresh-enabled: true
+      config:
+        namespce: dev
+        group: springcloud-demo
+        file-extension: yaml
+        refresh-enabled: true
+        extension-configs:
+          - data-id: contert-service-${spring.profiles.active}.yaml
+              group: springcloud-demo
+              refresh: true
+
+        shared-configs:
+          - data-id: swagger-${spring.profiles.active}.yaml
+          group: springcloud-demo
+          refresh: true
+          - data-id: logging-${spring.profiles.active}.yaml
+          group: springcloud-demo
+          refresh: true
+          - data-id: redis-${spring.profile.active}.yaml
+          group: springcloud-demo
+          refresh: true
 
 # 日志文件配置路径
 logging:

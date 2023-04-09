@@ -15,4 +15,6 @@ public interface TeacherService {
     Integer teacherDeleteByName(String name);
 
     TeacherInfoDto teacherUpdate(String id,AddTeacherDto addTeacherDto);
+
+    User queryTeacherListCache(String id);
 }
