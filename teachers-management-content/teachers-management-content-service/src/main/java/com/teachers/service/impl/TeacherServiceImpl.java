@@ -133,7 +133,7 @@ public class TeacherServiceImpl implements TeacherService {
     }
 
     private User getTeacher(String id) {
-        User user = teachersMapper.selectById(id);
+        User user = teachersMapper.getById(id);
         return user;
     }
 

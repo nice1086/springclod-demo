@@ -17,4 +17,6 @@ public interface TeachersMapper extends BaseMapper<User> {
                                  @Param("nickname")String nickname,
                                  @Param("image")String image,@Param("position")String position,
                                  @Param("motto")String motto,@Param("intro")String intro);
+
+    User getById(@Param("id") String id);
 }

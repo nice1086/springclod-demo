@@ -11,7 +11,9 @@
          ,position = #{position},motto = #{motto},intro = #{intro} where  id = #{id}
     </update>
 
-
+    <select id="getById" parameterType="map">
+         select id,name,nickname,image,position ,motto,intro from teacher where id = #{id};
+    </select>
 
 
 </mapper>
